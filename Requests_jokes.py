@@ -9,46 +9,60 @@ listOfEndpoints = ['https://official-joke-api.appspot.com/random_joke', 'https:/
 #3. Retrieve 10 random jokes by type and for each joke verify if the type is correct. If not, raise an error.
 #4. Retrieve 10 random jokes and display only the ones that have an odd/even ID.
 
-#1 and 2
-print("1 and 2")
-def problemSolve(listOfEndpoints):
 
-    for endPoint in listOfEndpoints:
+#1
+def get_information(path = '/random_joke'):
 
-        response = requests.get(endPoint)
-        result = response.json()
+    root = 'https://official-joke-api.appspot.com'
+    endpoint = root + path
+    response = requests.get(endpoint)
 
-        if(type(result) == dict):
+    return response.json()
 
-            friendlyResult = result['setup'] + '\n ' + result['punchline']
-            print(friendlyResult, '\n')
+#2
+def making_reading_friendly(path = '/random_joke'):
 
-        else:
+    result = get_information(path)
 
-            for dictionary in result:
+    if (type(result) == dict):
 
-                friendlyResult = dictionary['setup'] + '\n ' + dictionary['punchline']
-                print(friendlyResult, '\n')
+        friendlyResult = result['setup'] + '\n ' + result['punchline']
 
-problemSolve(listOfEndpoints)
+    else:
 
-#3 and 4
+        friendlyResult = []
+        for dictionary in result:
+            friendlyResult.add(dictionary['setup'] + '\n ' + dictionary['punchline'])
 
-root_endpoint = 'https://official-joke-api.appspot.com'
-type = 'programming'
-endpoint = root_endpoint + '/' + 'jokes' + '/' + type + '/' + 'ten'
+    return friendlyResult
 
-response = requests.get(endpoint)
-result = response.json()
+#3
+def checking_type(path = '/jokes/programming/ten', type = 'programming'):
 
-print("3 and 4")
-for i in result:
+    result = get_information(path)
 
-    if i['type'] != 'programming':
+    if type not in path:
+        print('Path must contain type!')
 
-        print('There is a missmatch type!')
+    for i in result:
+        if i['type'] != type:
+            print('There is a missmatch type!')
+            return False
 
-    if int(i['id']) % 2 == 0:
+    return True
 
-        print(i)
+#4
+def displayng_odd_IDs(path = '/jokes/programming/ten'):
+
+    result = get_information(path)
+
+    print('displayng jokes with odd ID')
+    for i in result:
+        if int(i['id']) % 2 == 0:
+            print(i)
+
+print("Test #1: ",get_information())
+print("Test #2: ",making_reading_friendly())
+print("Test #3: ",checking_type())
+print("Test #4: ",displayng_odd_IDs())
 
