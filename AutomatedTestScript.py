@@ -21,11 +21,10 @@ def displaying_most_recent_release():
     ActionChains(driver).move_to_element(downloads).click(allRelease).perform()
 
     recentRelease = driver.find_element_by_xpath('.//div[@class="row download-list-widget"]//ol//li[1]//span[@class="release-number"]/a')
-    recentReleaseText = (str(recentRelease.text))
 
-    return recentReleaseText
+    return (str(recentRelease.text))
 
-displaying_most_recent_release()
+print(displaying_most_recent_release())
 
 #	- Write an automated test script that:
 #		1. Opens a Chrome browser instance to the URL https://www.python.org/
@@ -34,7 +33,7 @@ displaying_most_recent_release()
 #       4. Select from Contents 'Examples'
 #		5. Verify current example count is 5
 
-def verify_example_count():
+def verify_example_count(checkingNumber):
 
     driver.get('https://www.python.org/')
     time.sleep(5)  # Let the user actually see something!
@@ -43,8 +42,15 @@ def verify_example_count():
     driver.find_element_by_xpath('.//ul[@class="list-recent-events menu"]//li[1]//h3//a').click()
     driver.find_element_by_xpath('/html/body/div/div[3]/div/section/article/div[1]/ul/li[10]/a').click()
 
-    current_example_count = driver.find_element_by_xpath('/html/body/div/div[3]/div/section/article/div[1]/ul/li[10]/a')
-    
+    examples = driver.find_element_by_xpath('/html/body/div/div[3]/div/section/article/div[11]/ol')
+    all_children = examples.find_elements_by_xpath('./*')
 
+    if checkingNumber == len(all_children):
 
-verify_example_count()
+        print(f'The current example count is {checkingNumber}')
+        return True
+
+    print(f'The current example count is not {checkingNumber}')
+    return  False
+
+verify_example_count(5)
