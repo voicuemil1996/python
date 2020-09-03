@@ -22,7 +22,7 @@ def displaying_most_recent_release():
 
     recentRelease = driver.find_element_by_xpath('.//div[@class="row download-list-widget"]//ol//li[1]//span[@class="release-number"]/a')
 
-    return (str(recentRelease.text))
+    return recentRelease.text
 
 print(displaying_most_recent_release())
 
@@ -43,9 +43,9 @@ def verify_example_count(checkingNumber):
     driver.find_element_by_xpath('/html/body/div/div[3]/div/section/article/div[1]/ul/li[10]/a').click()
 
     examples = driver.find_element_by_xpath('/html/body/div/div[3]/div/section/article/div[11]/ol')
-    all_children = examples.find_elements_by_xpath('./*')
+    allChildren = examples.find_elements_by_xpath('./*')
 
-    if checkingNumber == len(all_children):
+    if checkingNumber == len(allChildren):
 
         print(f'The current example count is {checkingNumber}')
         return True
