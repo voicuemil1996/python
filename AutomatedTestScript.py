@@ -13,7 +13,7 @@ driver = webdriver.Chrome("C:\\voicu emil\\chromedriver\\chromedriver.exe")
 
 def displaying_most_recent_release():
 
-    driver.get('https://www.python.org/');
+    driver.get('https://www.python.org/')
     time.sleep(5) # Let the user actually see something!
 
     downloads = driver.find_element_by_xpath('.//li[@id="downloads"]/a')
